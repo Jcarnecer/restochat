@@ -1,0 +1,149 @@
+.message-area {
+	height: calc(100vh - 110px);
+	overflow: auto;
+}
+
+.message {
+	display: flex;
+	flex-direction: column;
+	margin: 8px;
+}
+
+.message__user {
+	font-size: 11px;
+}
+
+.message__body {
+	display: flex;
+	align-items: center;
+}
+
+.message--primary .message__body {
+	justify-content: flex-end;
+}
+
+.message--danger .message__body {
+	justify-content: flex-end;
+}
+
+
+/*
+	Message bubble
+ */
+.message__bubble {
+	border-radius: 16px;
+	min-height: 24px;
+	padding: 8px 16px;
+	position: relative;
+}
+
+.message--primary .message__bubble {
+	background-color: #25CBF2;
+	border-top-right-radius: 0;
+	color: #ffffff;
+}
+
+.message--primary .message__bubble:after {
+	content: ''; 
+	position: absolute; 
+	right: 0; 
+	top: 0;
+	width: 0; 
+	height: 0; 
+	border: 5px solid transparent;
+	border-color: #25CBF2 transparent transparent transparent;
+	margin-right: -5px;
+}
+
+.message--danger .message__bubble {
+	background-color: #f44336;
+	border-top-right-radius: 0;
+	color: #ffffff;
+}
+
+.message--danger .message__bubble:after {
+	content: ''; 
+	position: absolute; 
+	right: 0; 
+	top: 0;
+	width: 0; 
+	height: 0; 
+	border: 5px solid transparent;
+	border-color: #f44336 transparent transparent transparent;
+	margin-right: -5px;
+}
+
+.message--default .message__bubble {
+	background-color: #ffffff;
+	border-top-left-radius: 0;
+}
+
+.message--default .message__bubble:after {
+	content: ''; 
+	position: absolute; 
+	left: 0; 
+	top: 0;
+	width: 0; 
+	height: 0; 
+	border: 5px solid transparent;
+	border-color: #ffffff transparent transparent transparent;
+	margin-left: -5px;
+}
+
+
+
+/*
+	Message time
+ */
+.message__time {
+	background-color: #212121;
+	border-radius: 2px;
+	color: #ffffff;
+	position: relative;
+	font-size: 11px;
+	line-height: 16px;
+	max-height: 32px;
+	padding: 8px;
+	vertical-align: : middle;
+}
+
+.message--default .message__time {
+	margin-left: 8px;
+}
+
+.message--default .message__time:after {
+	content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -5px;
+    margin-left: -10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #212121 transparent transparent;
+}
+
+.message--primary .message__time {
+	margin-right: 8px;
+}
+
+.message--primary .message__time:after {
+	content: " ";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -5px;
+    margin-right: -10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #212121;
+}
+
+.message__status {
+	font-size: 11px;
+	text-align: right;
+}
+
+.subtitle {
+	font-size: 12px;
+}
