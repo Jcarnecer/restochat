@@ -51,6 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'site_controller/index';
 $route['messages/(:any)'] = 'site_controller/messages';
+$route["users/login"] = "site_controller/login";
+$route["users/logout"] = "site_controller/logout";
 
 $api_url = "api/dev";
 

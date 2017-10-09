@@ -13,7 +13,7 @@ class Authenticate {
 
 	public function is_authenticated() {
 		if (!$this->CI->session->userdata('user')) {
-			return redirect('http://localhost/login/users/login');
+			return redirect('users/login');
 		}
 	}
 
@@ -23,5 +23,14 @@ class Authenticate {
 	}
 
 
+	public function login_user($user) {
+		unset($user->password);
+		$this->CI->session->set_userdata('user', $user);
+	}
+
+
+	public function logout_user() {
+		$this->CI->session->unset_userdata('user');
+	}
 
 }

@@ -141,4 +141,5 @@ $autoload['model'] = [
 	'Conversation_Model' => 'conversation',
 	'Participant_Model' => 'participant',
 	'Message_Model' => 'message',
+	'User_Model' => 'user'
 ];
