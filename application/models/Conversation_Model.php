@@ -4,6 +4,11 @@
 class Conversation_Model extends CI_Model {
 
 
+	public $id;
+	public $company_id;
+	public $name;
+	public $type;
+
 	public function insert($conversation) {
 		$this->db->insert('chat_conversations', $conversation);
 	}

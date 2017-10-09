@@ -18,7 +18,8 @@ function createConversation(companyId, conversationDetails) {
     return $.ajax({
         url: baseUrl + '/api/dev/companies/' + companyId + '/conversations',
         method: 'POST',
-        data: conversationDetails
+        data: conversationDetails,
+        async: false
     });
 }
 
@@ -49,5 +50,13 @@ function getUserConversations(userId) {
     return $.ajax({
         url: baseUrl + '/api/dev/users/' + userId + '/conversations',
         method: 'GET'
+    });
+}
+
+function createMessageReads(messageId, messageReadDetails) {
+    return $.ajax({
+        url: baseUrl + '/api/dev/messages/' + messageId + '/reads',
+        method: 'POST',
+        data: messageReadDetails
     });
 }

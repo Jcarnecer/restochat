@@ -47,6 +47,14 @@ class User_Controller extends CI_Controller {
 		}
 		*/
 
+		foreach ($conversations as $id => $conversation) {
+			$conversations[$id]["participants"] = $this->db->select('users.id, users.first_name, users.last_name')
+														   ->from('chat_participants')
+														   ->join('users', 'users.id = chat_participants.user_id')
+														   ->where('conversation_id', $conversation["id"])
+														   ->get()
+														   ->result_array();
+		}
 
 		return print json_encode($conversations);
 	}

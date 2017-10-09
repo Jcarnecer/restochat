@@ -140,5 +140,5 @@ $autoload['language'] = array();
 $autoload['model'] = [
 	'Conversation_Model' => 'conversation',
 	'Participant_Model' => 'participant',
-	'Message_Model' => 'message'
+	'Message_Model' => 'message',
 ];

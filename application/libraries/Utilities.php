@@ -28,11 +28,13 @@ class Utilities {
 		if (is_array($messages)) {
 			foreach ($messages as $id => $message) {
 				$messages[$id]->body = $this->CI->encryption->decrypt($message->body);
-				$messages[$id]->created_by = $this->CI->db->get_where('users', ['id' => $message->created_by])->row();
+				$messages[$id]->created_by = $this->CI->message->created_by($message->created_by);
+				$messages[$id]->reads = $this->CI->message->reads($message->id);
 			}
 		} else {
 			$messages->body = $this->CI->encryption->decrypt($messages->body);
-			$messages->created_by = $this->CI->db->get_where('users', ['id' => $messages->created_by])->row();
+			$messages->created_by = $this->CI->db->get_where('users', ['id' => $messages->created_by])->row_array();
+			$messages->reads = $this->CI->message->reads($messages->id);
 		}
 		
 
