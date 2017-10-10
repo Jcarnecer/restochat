@@ -34,6 +34,7 @@ class Company_Controller extends CI_Controller {
 
 
 	public function create_conversation($company_id) {
+		$user = $this->authenticate->current_user();
 		$participants = $_POST['participants'];
 		$company_id = $_POST['company_id'];
 
@@ -78,6 +79,16 @@ class Company_Controller extends CI_Controller {
 		}
 
 		$conversation["participants"] = $this->conversation->get_participants($conversation["id"]);
+
+		if (isset($_POST["body"])) {
+			$this->db->insert('chat_messages', [
+				"id" => $this->utilities->create_random_string(),
+				"conversation_id" => $conversation["id"],
+				"body" => $this->encryption->encrypt($_POST['body']),
+				"created_by" => $user->id,
+				"created_at" => time()
+			]);
+		}
 
 		return print json_encode($conversation);
 		/*

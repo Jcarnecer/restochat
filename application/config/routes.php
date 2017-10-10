@@ -49,22 +49,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'site_controller/index';
-$route['messages/(:any)'] = 'site_controller/messages';
-$route["users/login"] = "site_controller/login";
-$route["users/logout"] = "site_controller/logout";
+$route['default_controller'] = 'Site_Controller/index';
+$route['messages/(:any)'] = 'Site_Controller/messages';
+$route["users/login"] = "Site_Controller/login";
+$route["users/logout"] = "Site_Controller/logout";
 
 $api_url = "api/dev";
 
-$route["$api_url/users/(:any)/conversations"]["GET"] = 'user_controller/conversations/$1';
+$route["$api_url/users/(:any)/conversations"]["GET"] = 'User_Controller/conversations/$1';
 
-$route["$api_url/companies/(:any)/users"]["GET"] = 'company_controller/users/$1';
-$route["$api_url/companies/(:any)/conversations"]["POST"] = 'company_controller/create_conversation/$1';
+$route["$api_url/companies/(:any)/users"]["GET"] = 'Company_Controller/users/$1';
+$route["$api_url/companies/(:any)/conversations"]["POST"] = 'Company_Controller/create_conversation/$1';
 
-$route["$api_url/conversations"]["GET"] = 'conversation_controller/index';
-$route["$api_url/conversations/(:any)"]["GET"] = 'conversation_controller/show/$1';
-$route["$api_url/conversations/(:any)/messages"]["GET"] = 'conversation_controller/messages/$1';
-$route["$api_url/conversations/(:any)/messages"]["POST"] = 'conversation_controller/create_message/$1';
+$route["$api_url/conversations"]["GET"] = 'Conversation_Controller/index';
+$route["$api_url/conversations/(:any)"]["GET"] = 'Conversation_Controller/show/$1';
+$route["$api_url/conversations/(:any)/messages"]["GET"] = 'Conversation_Controller/messages/$1';
+$route["$api_url/conversations/(:any)/messages"]["POST"] = 'Conversation_Controller/create_message/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

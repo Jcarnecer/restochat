@@ -7,11 +7,11 @@
         <meta name="user_id" content="<?= $current_user->id ?>" />
         <meta name="company_id" content="<?= $company_id ?>" />
         <meta name="general_conversation" content="<?= $general_conversation ?>" />
-        <base href="/chat-alpha/" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/login/assets/css/flavored-reset-and-normalize.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/login/assets/css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/login/assets/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/login/assets/css/styles.css" />
+        <base href="/chat/" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/flavored-reset-and-normalize.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/styles.css" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/shimmer.css') ?>" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/styles.css') ?>" />
     </head>
@@ -83,11 +83,11 @@
             </div>
         </div>
 
-        <script src="http://localhost/login/assets/js/jquery.js"></script>
-        <script src="http://localhost/login/assets/js/popper.min.js"></script>
-        <script src="http://localhost/login/assets/js/bootstrap.min.js"></script>
-        <script src="http://localhost/login/assets/js/jquery.nicescroll.min.js"></script>
-        <script src="http://localhost/login/assets/js/script.js"></script>
+        <script src="http://localhost/main/assets/js/jquery.js"></script>
+        <script src="http://localhost/main/assets/js/popper.min.js"></script>
+        <script src="http://localhost/main/assets/js/bootstrap.min.js"></script>
+        <script src="http://localhost/main/assets/js/jquery.nicescroll.min.js"></script>
+        <script src="http://localhost/main/assets/js/script.js"></script>
         <script src="<?= base_url('assets/js/socket.io.js') ?>"></script>
         <script src="<?= base_url('assets/js/moment.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.js') ?>"></script>

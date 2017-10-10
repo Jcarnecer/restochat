@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<title>Simple Apps</title>
-		<base href="http://localhost/login/" />
+		<base href="http://localhost/main/" />
 		<!-- <link rel="stylesheet" type="text/css" href="assets/css/flavored-reset-and-normalize.min.css" >
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" > -->
 		<link rel="stylesheet" type="text/css" href="assets/css/flavored-reset-and-normalize.css" >

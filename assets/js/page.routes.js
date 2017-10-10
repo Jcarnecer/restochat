@@ -12,7 +12,7 @@ const $_createConversationForm = $('#createConversationForm');
 
 const socket = io('https://socket-simpleapp.herokuapp.com/');
 
-page.base('/chat-alpha');
+page.base('/chat');
 page('/', index);
 page('/messages/:conversationId', message);
 page({hashbang: false});
@@ -26,9 +26,6 @@ function index() {
 function message(context) {
 	let conversationId = context.params.conversationId;
 
-	/*
-	 * Read all conversations in this conversation
-	 */
 	getConversation(conversationId)
 		.then(function(response) {
 			let conversation = $.parseJSON(response);
