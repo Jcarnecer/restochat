@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-if (ENVIRONMENT == "production") {
+if (ENVIRONMENT === "production") {
 	$config['base_url'] = 'http://chat.payakapps.com/';
 } else {
 	$config['base_url'] = 'http://localhost/chat/';
@@ -404,11 +404,19 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '*.payakapps.com';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+if (ENVIRONMENT === "production") {
+	$config['cookie_prefix']	= '';
+	$config['cookie_domain']	= '.payakapps.com';
+	$config['cookie_path']		= '/';
+	$config['cookie_secure']	= FALSE;
+	$config['cookie_httponly'] 	= FALSE;
+} else {
+	$config['cookie_prefix']	= '';
+	$config['cookie_domain']	= '';
+	$config['cookie_path']		= '/';
+	$config['cookie_secure']	= FALSE;
+	$config['cookie_httponly'] 	= FALSE;
+}
 
 /*
 |--------------------------------------------------------------------------
