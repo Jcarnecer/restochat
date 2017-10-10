@@ -21,26 +21,4 @@ class Site_Controller extends CI_Controller {
 		redirect('/');
 	}
 
-
-	public function login() {
-		$error = null;
-
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$email_address = $_POST['email_address'];
-			$password = $_POST['password'];
-
-			if ($this->user->authenticate_user($email_address, $password)) {
-				return redirect('/');
-			}
-			
-			$error = 'Invalid login credentials';
-		}
-		return $this->load->view('login', ['error' => $error]);
-	}
-
-
-	public function logout() {
-		$this->authenticate->logout_user();
-		redirect('users/login');
-	}
 }
