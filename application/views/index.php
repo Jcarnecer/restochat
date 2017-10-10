@@ -7,7 +7,7 @@
         <meta name="user_id" content="<?= $current_user->id ?>" />
         <meta name="company_id" content="<?= $company_id ?>" />
         <meta name="general_conversation" content="<?= $general_conversation ?>" />
-        <base href="/chat/" />
+        <base href="<?= base_url() ?>" />
         <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/flavored-reset-and-normalize.css" />
         <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/font-awesome.min.css" />

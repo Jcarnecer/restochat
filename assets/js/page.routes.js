@@ -12,7 +12,7 @@ const $_createConversationForm = $('#createConversationForm');
 
 const socket = io('https://socket-simpleapp.herokuapp.com/');
 
-page.base('/chat');
+page.base('/');
 page('/', index);
 page('/messages/:conversationId', message);
 page({hashbang: false});
