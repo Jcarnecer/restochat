@@ -8,10 +8,10 @@
         <meta name="company_id" content="<?= $company_id ?>" />
         <meta name="general_conversation" content="<?= $general_conversation ?>" />
         <base href="<?= base_url() ?>" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/flavored-reset-and-normalize.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="http://payakapps.com/assets/css/flavored-reset-and-normalize.css" />
+        <link rel="stylesheet" type="text/css" href="http://payakapps.com/assets/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="http://payakapps.com/assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://payakapps.com/assets/css/styles.css" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/shimmer.css') ?>" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/styles.css') ?>" />
     </head>
@@ -83,11 +83,11 @@
             </div>
         </div>
 
-        <script src="http://localhost/main/assets/js/jquery.js"></script>
-        <script src="http://localhost/main/assets/js/popper.min.js"></script>
-        <script src="http://localhost/main/assets/js/bootstrap.min.js"></script>
-        <script src="http://localhost/main/assets/js/jquery.nicescroll.min.js"></script>
-        <script src="http://localhost/main/assets/js/script.js"></script>
+        <script src="http://payakapps.com/assets/js/jquery.js"></script>
+        <script src="http://payakapps.com/assets/js/popper.min.js"></script>
+        <script src="http://payakapps.com/assets/js/bootstrap.min.js"></script>
+        <script src="http://payakapps.com/assets/js/jquery.nicescroll.min.js"></script>
+        <script src="http://payakapps.com/assets/js/script.js"></script>
         <script src="<?= base_url('assets/js/socket.io.js') ?>"></script>
         <script src="<?= base_url('assets/js/moment.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.js') ?>"></script>
