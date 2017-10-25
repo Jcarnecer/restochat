@@ -37,8 +37,7 @@ function message(context) {
 
 	loadMessageArea(conversationId);
 
-	$_createMessageForm.off();
-	$_createMessageForm.submit(function(event) {
+	$_createMessageForm.unbind("submit").submit(function(event) {
 		event.preventDefault();
 
 		if ($_messageBody.val().trim()) {
@@ -73,7 +72,7 @@ function message(context) {
 	});
 
 
-	$_createConversationForm.unbind("click").submit(function(event) {
+	$_createConversationForm.unbind("submit").submit(function(event) {
 		event.preventDefault();
 
 		let conversationDetails = $_createConversationForm.serializeArray();
