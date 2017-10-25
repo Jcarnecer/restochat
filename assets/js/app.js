@@ -8,7 +8,7 @@ function getConversationName(conversation) {
 		$.each(conversation.participants, function(index, participant) {
 			if (participant.id !== userId) {
 				conversationName += participant.first_name + ' ' + participant.last_name;
-				conversationName += (index < conversation.participants.length - 2) ? ', ' : '';
+				conversationName += (conversation.participants.length > 2 && index < conversation.participants.length - 1) ? ", " : "";
 			}
 		});
 	}
@@ -38,7 +38,10 @@ function init() {
 			let conversations = $.parseJSON(response);
 
 			$('#sidebar').find('.shimmer').hide();
-			$_conversationList.append(`<li><a data-toggle="modal" data-target="#createConversationModal">New Message</a></li>`);
+			$('.sidebar__menu').append(`
+					<a href="#" data-toggle="modal" data-target="#createConversationModal">
+						<i class="fa fa fa-plus fa-lg"></i>Create Conversation
+					</a>`);
 			$.each(conversations, function(index, conversation) {
 				let conversationName = getConversationName(conversation);
 				$_conversationList.append(`

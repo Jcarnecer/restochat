@@ -14,12 +14,17 @@ const socket = io('https://socket-simpleapp.herokuapp.com/');
 
 page.base('/chat');
 page('/', index);
+page("/messages/new", newMessage);
 page('/messages/:conversationId', message);
 page({ hashbang: false });
 
 
 function index() {
 	page.redirect('/messages/' + $('meta[name="general_conversation"]').attr('content'));
+}
+
+function newMessage() {
+	
 }
 
 
@@ -140,7 +145,7 @@ function loadMessageArea(conversationId) {
 					<div class="message message--default" data-user="${message.created_by.id}">
 						<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 						<div class="message__body">
-							<img class="message__avatar" src="http://localhost/main/assets/img/profile/${message.created_by.id}.png" />
+							<img class="message__avatar" src="http://localhost/main/assets/img/avatar/${message.created_by.id}.png" />
 							<div class="message__bubble">${message.body}</div>
 							<div class="message__time"></div>
 						</div>

@@ -22,6 +22,7 @@
 
             <div class="shimmer shimmer--dark m-2"></div>
             <div class="shimmer shimmer--dark-secondary w-75 m-2"></div>
+            <ul class="sidebar__menu"></ul>
             <ul class="conversation-list"></ul>
         </div>
         <div class="main-content">
@@ -64,14 +65,11 @@
         <div class="modal" id="createConversationModal">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">New Message</div>
+                    <div class="modal-header">Create Conversation</div>
                         <div class="modal-body">
                             <form id="createConversationForm">
                                 <div class="form-group participants">
-                                    <label>Send message to:</label>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" name="body" placeholder="Type your message here..."></textarea>
+                                    <label>To:</label>
                                 </div>
                             </form>
                         </div>

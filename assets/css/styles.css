@@ -163,6 +163,38 @@
 	font-size: 12px;
 }
 
+/* Overrides */
 #createMessageForm input {
 	width: calc(100% - 50px);
+}
+
+#sidebar {
+	width: 300px;
+	max-width: 300px;
+}
+
+#sidebar .conversation-list {
+	overflow: auto;
+	height: calc(100% - 54px);
+}
+
+ul {
+	margin-bottom: 0;
+}
+
+.sidebar__item {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.navbar-custom {
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+}
+
+.main-content {
+	margin-left: 300px;
+}
+
+.fa-plus {
+	padding-right: 16px;
 }
