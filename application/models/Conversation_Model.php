@@ -58,9 +58,9 @@ class Conversation_Model extends CI_Model {
 				from chat_participants
 				join chat_conversations on chat_conversations.id = chat_participants.conversation_id
 				where chat_participants.conversation_id in (
-					select conversation_id from chat_participants where user_id = 'HJENIlkiiQt'
+					select conversation_id from chat_participants where user_id = '{$user_one}'
 				) and conversation_id in (
-				    select conversation_id from chat_participants where user_id = '4UAQl4Zczdu'
+				    select conversation_id from chat_participants where user_id = '{$user_two}'
 				) and chat_conversations.type = 2
 				group by conversation_id
 				having count(conversation_id) = 2")->row_array();
