@@ -73,36 +73,37 @@ function message(context) {
 	});
 
 
-	$_createConversationForm.submit(function(event) {
+	$_createConversationForm.unbind("click").submit(function(event) {
 		event.preventDefault();
 
 		let conversationDetails = $_createConversationForm.serializeArray();
 		conversationDetails.push({name: 'participants[]', value: userId }, {name: 'company_id', value: companyId });
 
-		createConversation(companyId, conversationDetails).then(function(response) {
-			let conversation = $.parseJSON(response);
+		createConversation(companyId, conversationDetails)
+			.then(function(response) {
+				let conversation = $.parseJSON(response);
 
-			$('.sidebar__item').removeClass('active');
+				$('.sidebar__item').removeClass('active');
 
-			if ($(`[data-id="${conversation.id}"]`).length) {
-				$(`[data-id="${conversation.id}"]`).addClass('active');
-			} else {
-				let conversationName = getConversationName(conversation);
+				if ($(`[data-id="${conversation.id}"]`).length) {
+					$(`[data-id="${conversation.id}"]`).addClass('active');
+				} else {
+					let conversationName = getConversationName(conversation);
 
-				$_conversationList.append(`
-					<li data-id="${conversation.id}">
-						<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active">
-							${conversationName}
-							<div class="subtitle"></div>
-						</a>
-					</li>`);
-			}
+					$_conversationList.append(`
+						<li data-id="${conversation.id}">
+							<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active">
+								${conversationName}
+								<div class="subtitle"></div>
+							</a>
+						</li>`);
+				}
 
-			$_createConversationModal.modal('hide');
-			$_createConversationForm[0].reset();
-			$('.sidebar__item').toggleActive();
-			page.redirect('/messages/' + conversation.id);
-		});
+				$_createConversationModal.modal('hide');
+				$_createConversationForm[0].reset();
+				$('.sidebar__item').toggleActive();
+				page.redirect('/messages/' + conversation.id);
+			});
 	});
 }
 
@@ -156,7 +157,7 @@ function loadMessageArea(conversationId) {
 
 		$_messageArea.scrollToBottom();
 
-		socket.on('chat message', function(message) {
+		socket.off().on('chat message', function(message) {
 			if (message.created_by.id !== userId && message.conversation_id === conversationId) {
 				let $_lastMessage = $('.message').last();
 				let $_message;

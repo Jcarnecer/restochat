@@ -56,11 +56,12 @@ class Conversation_Model extends CI_Model {
 		return $this->db->query("
 				select conversation_id id
 				from chat_participants
-				where conversation_id in (
-					select conversation_id from chat_participants where user_id = '{$user_one}'
+				join chat_conversations on chat_conversations.id = chat_participants.conversation_id
+				where chat_participants.conversation_id in (
+					select conversation_id from chat_participants where user_id = 'HJENIlkiiQt'
 				) and conversation_id in (
-				    select conversation_id from chat_participants where user_id = '{$user_two}'
-				)
+				    select conversation_id from chat_participants where user_id = '4UAQl4Zczdu'
+				) and chat_conversations.type = 2
 				group by conversation_id
 				having count(conversation_id) = 2")->row_array();
 	}
