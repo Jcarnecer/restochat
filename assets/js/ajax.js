@@ -1,4 +1,4 @@
-const baseUrl = window.location.origin;
+const baseUrl = "http://localhost/chat";
 
 function getConversations() {
     return $.ajax({

@@ -18,13 +18,14 @@ function getConversationName(conversation) {
 
 function getMessageStatus(message) {
 	let status = "Delivered";
+	/*
 	if (message.reads.length) {
 		status = "Read by ";
 		$.each(message.reads, function(index, read) {
 			status += read.first_name + ' ' + read.last_name;
 			status += (index < message.reads.length - 1) ? ', ' : '';
 		});
-	}
+	}*/
 	return status;
 }
 

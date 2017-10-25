@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-if (ENVIRONMENT === "production") {
+if (ENVIRONMENT == "production") {
 	$db['default'] = array(
 		'dsn'	=> '',
 		'hostname' => 'smallappsdatabase.ct6zpeav3tx4.ap-southeast-1.rds.amazonaws.com',
