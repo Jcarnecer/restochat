@@ -127,7 +127,6 @@ function loadMessageArea(conversationId) {
 					<div class="message__status"></div>
 				</div>`);
 			} else {
-				// createMessageRead(messageId, {user_id: userId});
 				if ($_lastMessage.attr('data-user') === message.created_by.id) {
 					$_message = $(`
 					<div class="message message--default" data-user="${message.created_by.id}">
@@ -141,6 +140,7 @@ function loadMessageArea(conversationId) {
 					<div class="message message--default" data-user="${message.created_by.id}">
 						<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 						<div class="message__body">
+							<img class="message__avatar" src="http://localhost/main/assets/img/profile/${message.created_by.id}.png" />
 							<div class="message__bubble">${message.body}</div>
 							<div class="message__time"></div>
 						</div>

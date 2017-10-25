@@ -10,12 +10,19 @@
 }
 
 .message__user {
-	font-size: 11px;
+	font-size: 12px;
+	padding-bottom: 8px;
 }
 
 .message__body {
 	display: flex;
 	align-items: center;
+}
+
+.message__avatar {
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
 }
 
 .message--primary .message__body {
@@ -26,6 +33,14 @@
 	justify-content: flex-end;
 }
 
+.message__user,
+.message--default .message__bubble {
+	margin-left: 50px;
+}
+
+.message__avatar + .message__bubble {
+	margin-left: 10px;
+}
 
 /*
 	Message bubble
@@ -146,4 +161,8 @@
 
 .subtitle {
 	font-size: 12px;
+}
+
+#createMessageForm input {
+	width: calc(100% - 50px);
 }
