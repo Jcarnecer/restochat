@@ -14,9 +14,17 @@ function getConversation(conversationId) {
     });
 }
 
-function createConversation(companyId, conversationDetails) {
+function getPrivateConversation(conversationDetails) {
     return $.ajax({
-        url: baseUrl + '/api/dev/companies/' + companyId + '/conversations',
+        url: baseUrl + '/api/dev/conversations/private-conversation',
+        method: 'GET',
+        data: conversationDetails
+    });   
+}
+
+function createConversation(conversationDetails) {
+    return $.ajax({
+        url: baseUrl + '/api/dev/conversations',
         method: 'POST',
         data: conversationDetails,
         async: false
@@ -58,5 +66,12 @@ function createMessageReads(messageId, messageReadDetails) {
         url: baseUrl + '/api/dev/messages/' + messageId + '/reads',
         method: 'POST',
         data: messageReadDetails
+    });
+}
+
+function getUser(userId) {
+    return $.ajax({
+        url: baseUrl + '/api/dev/users/' + userId,
+        method: 'GET',
     });
 }

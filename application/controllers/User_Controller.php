@@ -10,14 +10,14 @@ class User_Controller extends CI_Controller {
 
 
 	public function conversations($user_id) {
+		/*
 		$conversations = $this->db->query("
 			select *
 			from chat_conversations
 			where id in (
 				select conversation_id from chat_participants where user_id = '{$user_id}'
 			)")->result_array();
-
-		/*
+		*/
 		$conversations = $this->utilities->prepare_messages($this->db->query("
 			select m1.*, c.*
 			from chat_messages m1 
@@ -45,8 +45,8 @@ class User_Controller extends CI_Controller {
 														 ->get()
 														 ->result();
 		}
-		*/
 
+		/*
 		foreach ($conversations as $id => $conversation) {
 			$conversations[$id]["participants"] = $this->db->select('users.id, users.first_name, users.last_name')
 														   ->from('chat_participants')
@@ -55,8 +55,18 @@ class User_Controller extends CI_Controller {
 														   ->get()
 														   ->result_array();
 		}
+		*/
 
 		return print json_encode($conversations);
+	}
+
+	public function show($user_id) {
+		$user = $this->db->get_where("users", ["id" => $user_id])->row_array();
+
+		if ($user) {
+			unset($user["password"]);
+			return print json_encode($user);
+		}
 	}
 
 }

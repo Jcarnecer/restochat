@@ -62,4 +62,11 @@ class Conversation_Controller extends CI_Controller {
 		}
 		return show_error(404);
 	}
+
+
+	public function get_private_conversation() {
+		$participants = $_GET["participants"];
+		$conversation = $this->conversation->get_private_conversation($participants[0], $participants[1]);
+		return print json_encode($conversation);
+	}
 }

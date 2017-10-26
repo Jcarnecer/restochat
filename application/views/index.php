@@ -22,7 +22,7 @@
 
             <div class="shimmer shimmer--dark m-2"></div>
             <div class="shimmer shimmer--dark-secondary w-75 m-2"></div>
-            <ul class="sidebar__menu"></ul>
+            <div class="sidebar__header"></div>
             <ul class="conversation-list"></ul>
         </div>
         <div class="main-content">
@@ -33,7 +33,7 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <div class="navbar-brand w-25">
+                    <div class="navbar-brand">
                         <div class="shimmer shimmer--light w-100 m-2"></div>
                     </div>
                     <div class="nav">
@@ -62,20 +62,12 @@
             </div>
         </div>
 
-        <div class="modal" id="createConversationModal">
+        <div class="modal fade" id="createConversationModal">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">Create Conversation</div>
-                        <div class="modal-body">
-                            <form id="createConversationForm">
-                                <div class="form-group participants">
-                                    <label>To:</label>
-                                </div>
-                            </form>
-                        </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary" type="submit" form="createConversationForm">Send</button>
+                    <div class="modal-header">New conversation</div>
+                    <div class="modal-body">
+                        <div class="menu" id="conversationList"></div>
                     </div>
                 </div>
             </div>
@@ -89,6 +81,7 @@
         <script src="<?= base_url('assets/js/socket.io.js') ?>"></script>
         <script src="<?= base_url('assets/js/moment.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.js') ?>"></script>
+        <script src="<?= base_url('assets/js/querystring.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/ajax.js') ?>"></script>
         <script src="<?= base_url('assets/js/jquery-plugin.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.routes.js') ?>"></script>

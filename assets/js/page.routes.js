@@ -13,36 +13,154 @@ const $_createConversationForm = $('#createConversationForm');
 const socket = io('https://socket-simpleapp.herokuapp.com/');
 
 page.base('/chat');
-page('/', index);
-page("/messages/new", newMessage);
-page('/messages/:conversationId', message);
+page("/", index);
+page("/messages/create", showCreateConversation);
+page("/messages/:conversationId", message);
+page("*", notFound);
 page({ hashbang: false });
+page.start();
 
 
-function index() {
-	page.redirect('/messages/' + $('meta[name="general_conversation"]').attr('content'));
+function index(context) {
+	$("#sidebar").ready(function() {
+		getUserConversations(userId).then(function(response) {
+			let conversations = $.parseJSON(response);
+
+			$('#sidebar').find('.shimmer').hide();
+			$('.sidebar__header').append(`
+				<a class="sidebar__header__item" href="http://localhost/main">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+				<a class="sidebar__header__item">kaChat</a>
+				<a class="sidebar__header__item" href="#" data-toggle="modal" data-target="#createConversationModal">
+					<i class="fa fa-plus-circle"></i>
+				</a>
+			`);
+
+			$.each(conversations, function(index, conversation) {
+				let conversationName = getConversationName(conversation);
+				$_conversationList.append(`
+					<li title="${conversationName}" data-conversation="${conversation.id}">
+						<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item ${conversation.name === 'General' ? 'active': ''}">
+							<div class="">${conversationName}</div>
+							<small>${conversation.body}</small>
+						</a>
+					</li>
+				`);
+			});
+
+			$('.sidebar__item').toggleActive();
+		});
+	});
+	
+	$("#createConversationModal").on("shown.bs.modal", function() {
+		getCompanyUsers(companyId).then(function(response) {
+			let users = $.parseJSON(response);
+
+			$.each(users, function(index, user) {
+				if (user.id !== userId) {
+					$('#createConversationModal .menu').append(
+						$(`
+							<div class="menu__item">
+								<img class="menu__image" src="http://localhost/main/assets/img/avatar/${user.id}.png" />
+								${user.first_name} ${user.last_name}
+							</div>
+						`)
+						.click(function() {
+							let conversationDetails = {
+								"participants": [userId, user.id],
+								"company_id": companyId,
+								"type": 2
+							};
+
+							getPrivateConversation(conversationDetails).done(function(response) {
+								let conversation = $.parseJSON(response);
+
+								$("#createConversationModal").modal("hide");
+
+								if (conversation) {
+									$(`[data-id="${conversation.id}"]`).addClass("active");
+									page.redirect("/messages/" + conversation.id );
+								} else {
+									page.redirect("/messages/create?" + querystring.stringify(conversationDetails));
+								}
+							});
+						})
+					);
+				}
+			});
+		});
+	});
+
+	$('#createConversationModal').on("hide.bs.modal", function() {
+		$("#createConversationModal .menu").html("");
+	});
+
+	page.redirect("/messages/" + $('meta[name="general_conversation"]').attr('content'));
 }
 
-function newMessage() {
-	
+function showCreateConversation(context) {
+	let conversation = querystring.parse(context.querystring);
+
+	document.title = "";
+	$(".navbar-brand").html("");
+	$(".message-area").html("");
+
+	$.each(conversation.participants, function(index, participant) {
+		getUser(participant).done(function(data) {
+			let user = $.parseJSON(data);
+			document.title += user.first_name + " " + user.last_name;
+			$(".navbar-brand").append(user.first_name + " " + user.last_name);
+		});
+	});
+
+	$("#createMessageForm").unbind("submit").submit(function(event) {
+		event.preventDefault();
+
+		if ($("#createMessageForm").find("[name='body']").val()) {
+			createConversation(conversation).done(function(data) {
+				let conversation = $.parseJSON(data);
+				let conversationName = getConversationName(conversation);
+
+				createConversationMessage(conversation.id, $("#createMessageForm").serialize()).done(function(data) {
+					let message = $.parseJSON(data);
+
+					$(".conversation-list").find(".active").removeClass("active");
+					$(".conversation-list").prepend(
+						$(`
+							<li title="${conversationName}">
+								<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active" data-id="${conversation.id}">
+									<div class="">${conversationName}</div>
+									<small>${message.body}</small>
+								</a>
+							</li>
+						`)
+					);
+					$(".conversation-list .sidebar__item").toggleActive();
+					//socket.emit("push conversation", conversation);
+					page.redirect("/messages/" + conversation.id);
+				});
+			});
+			$("#createMessageForm").find("[name='body']").val("");
+		}
+	});
 }
 
 
 function message(context) {
 	let conversationId = context.params.conversationId;
 
-	getConversation(conversationId)
-		.then(function(response) {
-			let conversation = $.parseJSON(response);
-			let conversationName = getConversationName(conversation);
+	getConversation(conversationId).done(function(response) {
+		let conversation = $.parseJSON(response);
+		let conversationName = getConversationName(conversation);
 
-			document.title = conversationName;
-			$('.navbar-brand').html(conversationName);
-		});
+		document.title = conversationName;
+		$('.navbar-brand').html(conversationName);
+	});
 
 	loadMessageArea(conversationId);
 
-	$_createMessageForm.unbind("submit").submit(function(event) {
+	$("#createMessageForm").unbind("submit").submit(function(event) {
 		event.preventDefault();
 
 		if ($_messageBody.val().trim()) {
@@ -53,70 +171,39 @@ function message(context) {
 						<div class="message__bubble">${$_messageBody.val().trim()}</div>
 					</div>
 					<div class="message__status">Sending...</div>
-				</div>`);
+				</div>
+			`);
 
 			$_message.find('.message__time').hide();
 			$_messageArea.append($_message);
 			$_messageArea.scrollToBottom();
 
-			createConversationMessage(conversationId, $_createMessageForm.serialize())
-				.then(function(response) {
-					let message = $.parseJSON(response);
+			createConversationMessage(conversationId, $_createMessageForm.serialize()).then(function(response) {
+				let message = $.parseJSON(response);
 
-					$_message.eventShowTime({timestamp: message.created_at});
-					$_message.eventShowStatus({status: "Delivered"});
-					socket.emit('chat message', message);
-				})
-				.fail(function(response) {
-					$_message.removeClass('message--primary').addClass('message--danger');
-					$_message.find('.message__status').html("Click to resend message");
-				}.bind($_message));
+				$_message.attr("data-id", message.id);
+				$_message.eventShowTime({timestamp: message.created_at});
+				$_message.eventShowStatus({status: "Delivered"});
+				socket.emit('chat message', message);
+			}).fail(function(response) {
+				$_message.removeClass('message--primary').addClass('message--danger');
+				$_message.find('.message__status').html("Click to resend message");
+			}.bind($_message));
 
 			$_messageBody.val("");
 		}
 	});
-
-
-	$_createConversationForm.unbind("submit").submit(function(event) {
-		event.preventDefault();
-
-		let conversationDetails = $_createConversationForm.serializeArray();
-		conversationDetails.push({name: 'participants[]', value: userId }, {name: 'company_id', value: companyId });
-
-		createConversation(companyId, conversationDetails)
-			.then(function(response) {
-				let conversation = $.parseJSON(response);
-
-				$('.sidebar__item').removeClass('active');
-
-				if ($(`[data-id="${conversation.id}"]`).length) {
-					$(`[data-id="${conversation.id}"]`).addClass('active');
-				} else {
-					let conversationName = getConversationName(conversation);
-
-					$_conversationList.append(`
-						<li data-id="${conversation.id}">
-							<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active">
-								${conversationName}
-								<div class="subtitle"></div>
-							</a>
-						</li>`);
-				}
-
-				$_createConversationModal.modal('hide');
-				$_createConversationForm[0].reset();
-				$('.sidebar__item').toggleActive();
-				page.redirect('/messages/' + conversation.id);
-			});
-	});
 }
 
+function notFound() {
+	page.redirect("/");
+}
 
 function loadMessageArea(conversationId) {
 	getConversationMessages(conversationId).then(function(response) {
 		let messages = $.parseJSON(response);
-		
-		$_messageArea.html("");
+
+		$(".message-area").html("");
 
 		$.each(messages, function(index, message) {
 			let $_message;
@@ -124,7 +211,7 @@ function loadMessageArea(conversationId) {
 
 			if (message.created_by.id === userId) {
 				$_message = $(`
-				<div class="message message--primary" data-user="${message.created_by.id}">
+				<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
 					<div class="message__body">
 						<div class="message__time"></div>
 						<div class="message__bubble">${message.body}</div>
@@ -134,7 +221,7 @@ function loadMessageArea(conversationId) {
 			} else {
 				if ($_lastMessage.attr('data-user') === message.created_by.id) {
 					$_message = $(`
-					<div class="message message--default" data-user="${message.created_by.id}">
+					<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 						<div class="message__body">
 							<div class="message__bubble">${message.body}</div>
 							<div class="message__time"></div>
@@ -142,7 +229,7 @@ function loadMessageArea(conversationId) {
 					</div>`);
 				} else {
 					$_message = $(`
-					<div class="message message--default" data-user="${message.created_by.id}">
+					<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 						<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 						<div class="message__body">
 							<img class="message__avatar" src="http://localhost/main/assets/img/avatar/${message.created_by.id}.png" />
@@ -162,13 +249,13 @@ function loadMessageArea(conversationId) {
 		$_messageArea.scrollToBottom();
 
 		socket.off().on('chat message', function(message) {
-			if (message.created_by.id !== userId && message.conversation_id === conversationId) {
-				let $_lastMessage = $('.message').last();
-				let $_message;
+			let $_lastMessage = $('.message').last();
+			let $_message;
 
+			if (message.created_by.id !== userId && message.conversation_id === conversationId) {
 				if ($_lastMessage.attr('data-user') === message.created_by.id) {
 					$_message = $(`
-						<div class="message message--default" data-user="${message.created_by.id}">
+						<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 							<div class="message__body">
 								<div class="message__bubble">${message.body}</div>
 								<div class="message__time"></div>
@@ -176,9 +263,10 @@ function loadMessageArea(conversationId) {
 						</div>`);
 				} else {
 					$_message = $(`
-						<div class="message message--default" data-user="${message.created_by.id}">
+						<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 							<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 							<div class="message__body">
+								<img class="message__avatar" src="http://localhost/main/assets/img/avatar/${message.created_by.id}.png" />
 								<div class="message__bubble">${message.body}</div>
 								<div class="message__time"></div>
 							</div>
@@ -187,6 +275,26 @@ function loadMessageArea(conversationId) {
 
 				$_message.eventShowTime({timestamp: message.created_at});
 				$_messageArea.append($_message).scrollToBottom();
+			} else {
+				if ($(`[data-message="${message.id}"]`).length === 0) {
+					$_message = $(`
+						<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
+							<div class="message__body">
+								<div class="message__time"></div>
+								<div class="message__bubble">${message.body}</div>
+							</div>
+							<div class="message__status"></div>
+						</div>
+					`);
+
+					$_message.eventShowTime({timestamp: message.created_at});
+					$_messageArea.append($_message).scrollToBottom();
+				}
+			}
+
+			if ($(`[data-conversation="${message.conversation_id}"]`).length) {
+				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body)
+				$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
 			}
 		});
 	});

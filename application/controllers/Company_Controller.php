@@ -33,12 +33,13 @@ class Company_Controller extends CI_Controller {
 	}
 
 
-	public function create_conversation($company_id) {
+	public function create_conversation() {
 		$user = $this->authenticate->current_user();
 		$participants = $_POST['participants'];
 		$company_id = $_POST['company_id'];
+		$type = $_POST["type"];
 
-		if (count($participants) == 2) {
+		if ($type == 2) {
 			$conversation = $this->conversation->get_private_conversation($participants[0], $participants[1]);
 
 			if (!$conversation) {
@@ -59,7 +60,9 @@ class Company_Controller extends CI_Controller {
 					$this->participant->insert($participant_details);
 				}
 			}
-		} else {
+		} 
+
+		/* else {
 			$conversation = [
 				"id" => $this->utilities->create_random_string(),
 				"company_id" => $company_id,
@@ -76,62 +79,10 @@ class Company_Controller extends CI_Controller {
 
 				$this->participant->insert($participant_details);
 			}
-		}
+		} */
 
 		$conversation["participants"] = $this->conversation->get_participants($conversation["id"]);
-
-		if (isset($_POST["body"])) {
-			$this->db->insert('chat_messages', [
-				"id" => $this->utilities->create_random_string(),
-				"conversation_id" => $conversation["id"],
-				"body" => $this->encryption->encrypt($_POST['body']),
-				"created_by" => $user->id,
-				"created_at" => time()
-			]);
-		}
-
-		return print json_encode($conversation);
-		/*
-		if (count($participants) == 2) {
-			$conversation = $this->db->query("
-				select conversation_id
-				from chat_participants
-				where conversation_id in (
-					select conversation_id from chat_participants where user_id = '{$_POST['participants'][0]}'
-				) and conversation_id in (
-				    select conversation_id from chat_participants where user_id = '{$_POST['participants'][1]}'
-				)
-				group by conversation_id
-				having count(conversation_id) = 2")->row('array');
-
-			if (!$conversation) {
-				$conversation->id = $this->utilities->create_random_string();
-				$conversation->company_id = $company_id;
-				$this->conversation->insert($conversation);
-
-				foreach ($participants as $participant) {
-					$participant->conversation_id = $conversation->id;
-					$participant->user_id = $participant;
-					$this->participant->insert($participant);
-				}
-			} else {
-				$conversation = $this->conversation->find($conversation->conversation_id);
-			}
-		} else {
-			$this->conversation->id = $this->utilities->create_random_string();
-			$this->conversation->company_id = $company_id;
-			$this->conversation->insert($this->conversation);
-
-			foreach ($participants as $participant) {
-				$this->participant->conversation_id = $this->conversation->id;
-				$this->participant->user_id = $participant;
-				$this->participant->insert($this->participant);
-			}
-		}
-
-		$this->conversation->participants = $this->conversation->get_participants($conversation->id);
 		
-		return print json_encode($this->conversation);
-		*/
+		return print json_encode($conversation);
 	}
 }
