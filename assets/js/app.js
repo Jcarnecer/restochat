@@ -8,6 +8,7 @@ function getConversationName(conversation) {
 		$.each(conversation.participants, function(index, participant) {
 			if (participant.id !== userId) {
 				conversationName += participant.first_name + ' ' + participant.last_name;
+				// Check this
 				conversationName += (conversation.participants.length > 2 && index < conversation.participants.length - 1) ? ", " : "";
 			}
 		});
