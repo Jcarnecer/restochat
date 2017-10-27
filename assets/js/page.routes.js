@@ -189,7 +189,7 @@ function message(context) {
 				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
 				$(".conversation-list").prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
 
-				socket.emit('chat message', message);
+				socket.emit("chat message", message);
 			}).fail(function(response) {
 				$_message.removeClass('message--primary').addClass('message--danger');
 				$_message.find('.message__status').html("Click to resend message");
@@ -229,13 +229,14 @@ function loadMessageArea(conversationId) {
 
 			if (message.created_by.id === userId) {
 				$_message = $(`
-				<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
-					<div class="message__body">
-						<div class="message__time"></div>
-						<div class="message__bubble">${message.body}</div>
+					<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
+						<div class="message__body">
+							<div class="message__time"></div>
+							<div class="message__bubble">${message.body}</div>
+						</div>
+						<div class="message__status"></div>
 					</div>
-					<div class="message__status"></div>
-				</div>`);
+				`);
 			} else {
 				if ($_lastMessage.attr('data-user') === message.created_by.id) {
 					$_message = $(`
@@ -293,12 +294,14 @@ function loadMessageArea(conversationId) {
 
 				$_message.eventShowTime({timestamp: message.created_at});
 				$_messageArea.append($_message).scrollToBottom();
+			}
 
-				if ($(`[data-conversation="${message.conversation_id}"]`).length) {
-					$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
-					//$(`[data-conversation="${message.conversation_id}"]`).find(".sidebar__item").addClass("new");
-					$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
-				}
+			console.log(message);
+
+			if ($(`[data-conversation="${message.conversation_id}"]`).length) {
+				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
+				//$(`[data-conversation="${message.conversation_id}"]`).find(".sidebar__item").addClass("new");
+				$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
 			}
 		});
 	});
