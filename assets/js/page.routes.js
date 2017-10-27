@@ -11,9 +11,9 @@ const $_createConversationModal = $('#createConversationModal');
 const $_createConversationForm = $('#createConversationForm');
 
 const socket = io('https://socket-simpleapp.herokuapp.com/');
+const audio = new Audio('https://notificationsounds.com/soundfiles/68ce199ec2c5517597ce0a4d89620f55/file-sounds-954-all-eyes-on-me.mp3');
 
-page.base('/chat');
-page("/", index);
+page('/', index);
 page("/messages/create", showCreateConversation);
 page("/messages/:conversationId", message);
 page.exit("/messages/:conversationId", exitConversation);
@@ -166,7 +166,7 @@ function message(context) {
 
 		if ($_messageBody.val().trim()) {
 			let $_message = $(`
-				<div class="message message--primary">	
+				<div class="message message--primary">
 					<div class="message__body">
 						<div class="message__time"></div>
 						<div class="message__bubble">${$_messageBody.val().trim()}</div>
@@ -251,7 +251,7 @@ function loadMessageArea(conversationId) {
 					<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 						<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 						<div class="message__body">
-							<img class="message__avatar" src="http://localhost/main/assets/img/avatar/${message.created_by.id}.png" />
+							<img class="message__avatar" src="http://payakapps.com/assets/img/avatar/${message.created_by.id}.png" />
 							<div class="message__bubble">${message.body}</div>
 							<div class="message__time"></div>
 						</div>
@@ -294,12 +294,14 @@ function loadMessageArea(conversationId) {
 
 				$_message.eventShowTime({timestamp: message.created_at});
 				$_messageArea.append($_message).scrollToBottom();
+				audio.play();
 			}
 
 			if ($(`[data-conversation="${message.conversation_id}"]`).length) {
 				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
 				//$(`[data-conversation="${message.conversation_id}"]`).find(".sidebar__item").addClass("new");
 				$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
+				audio.play();
 			}
 		});
 	});
