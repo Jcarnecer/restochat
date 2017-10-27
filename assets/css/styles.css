@@ -200,6 +200,9 @@
 	width: calc(100% - 50px);
 }
 
+.navbar-brand {
+	min-height: 40px;
+}
 
 /* Sidebar */
 #sidebar {

@@ -16,6 +16,7 @@ page.base('/chat');
 page("/", index);
 page("/messages/create", showCreateConversation);
 page("/messages/:conversationId", message);
+page.exit("/messages/:conversationId", exitConversation);
 page("*", notFound);
 page({ hashbang: false });
 page.start();
@@ -79,7 +80,7 @@ function index(context) {
 								$("#createConversationModal").modal("hide");
 
 								if (conversation) {
-									$(`[data-id="${conversation.id}"]`).addClass("active");
+									$(`[data-message="${conversation.id}"]`).addClass("active");
 									page.redirect("/messages/" + conversation.id );
 								} else {
 									page.redirect("/messages/create?" + querystring.stringify(conversationDetails));
@@ -129,7 +130,7 @@ function showCreateConversation(context) {
 					$(".conversation-list").prepend(
 						$(`
 							<li title="${conversationName}">
-								<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active" data-id="${conversation.id}">
+								<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item active" data-conversation="${conversation.id}">
 									<div class="">${conversationName}</div>
 									<small>${message.body}</small>
 								</a>
@@ -181,9 +182,13 @@ function message(context) {
 			createConversationMessage(conversationId, $_createMessageForm.serialize()).then(function(response) {
 				let message = $.parseJSON(response);
 
-				$_message.attr("data-id", message.id);
+				$_message.attr("data-message", message.id);
 				$_message.eventShowTime({timestamp: message.created_at});
 				$_message.eventShowStatus({status: "Delivered"});
+
+				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
+				$(".conversation-list").prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
+
 				socket.emit('chat message', message);
 			}).fail(function(response) {
 				$_message.removeClass('message--primary').addClass('message--danger');
@@ -193,6 +198,19 @@ function message(context) {
 			$_messageBody.val("");
 		}
 	});
+}
+
+
+function exitConversation(context, next) {
+	$("title").html("");
+	$(".navbar-brand").html("<div class='shimmer shimmer--light w-100 m-2'></div>");
+	$(".message-area").html(`
+		<div class="shimmer shimmer--light w-50 m-2 mt-3"></div>
+        <div class="shimmer shimmer--light w-25 m-2"></div>
+        <div class="shimmer shimmer--light w-50 m-2 mt-4"></div>
+        <div class="shimmer shimmer--light w-25 m-2"></div>
+    `);
+	next();
 }
 
 function notFound() {
@@ -240,7 +258,6 @@ function loadMessageArea(conversationId) {
 				}
 			}
 
-
 			$_message.eventShowTime({timestamp: message.created_at});
 			$_message.eventShowStatus({status: getMessageStatus(message)});
 			$_messageArea.append($_message);
@@ -248,7 +265,8 @@ function loadMessageArea(conversationId) {
 
 		$_messageArea.scrollToBottom();
 
-		socket.off().on('chat message', function(message) {
+		socket.off("chat message");
+		socket.on("chat message", function(message) {
 			let $_lastMessage = $('.message').last();
 			let $_message;
 
@@ -275,26 +293,12 @@ function loadMessageArea(conversationId) {
 
 				$_message.eventShowTime({timestamp: message.created_at});
 				$_messageArea.append($_message).scrollToBottom();
-			} else {
-				if ($(`[data-message="${message.id}"]`).length === 0) {
-					$_message = $(`
-						<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
-							<div class="message__body">
-								<div class="message__time"></div>
-								<div class="message__bubble">${message.body}</div>
-							</div>
-							<div class="message__status"></div>
-						</div>
-					`);
 
-					$_message.eventShowTime({timestamp: message.created_at});
-					$_messageArea.append($_message).scrollToBottom();
+				if ($(`[data-conversation="${message.conversation_id}"]`).length) {
+					$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
+					//$(`[data-conversation="${message.conversation_id}"]`).find(".sidebar__item").addClass("new");
+					$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
 				}
-			}
-
-			if ($(`[data-conversation="${message.conversation_id}"]`).length) {
-				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body)
-				$('.conversation-list').prepend($(`[data-conversation="${message.conversation_id}"]`).remove());
 			}
 		});
 	});
