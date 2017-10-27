@@ -296,8 +296,6 @@ function loadMessageArea(conversationId) {
 				$_messageArea.append($_message).scrollToBottom();
 			}
 
-			console.log(message);
-
 			if ($(`[data-conversation="${message.conversation_id}"]`).length) {
 				$(`[data-conversation="${message.conversation_id}"]`).find("small").html(message.body);
 				//$(`[data-conversation="${message.conversation_id}"]`).find(".sidebar__item").addClass("new");
