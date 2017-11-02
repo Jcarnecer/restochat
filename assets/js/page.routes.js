@@ -13,6 +13,7 @@ const $_createConversationForm = $('#createConversationForm');
 const socket = io('https://socket-simpleapp.herokuapp.com/');
 const audio = new Audio('https://notificationsounds.com/soundfiles/68ce199ec2c5517597ce0a4d89620f55/file-sounds-954-all-eyes-on-me.mp3');
 
+page.base("/chat")
 page('/', index);
 page("/messages/create", showCreateConversation);
 page("/messages/:conversationId", message);
