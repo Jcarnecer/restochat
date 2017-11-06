@@ -12,39 +12,50 @@ class Conversation_Controller extends CI_Controller {
 
 
 	public function index() {
-		$conversations = $this->conversation->all();
+		$conversations = $this->db->get("chat_conversations")->result_array();
 
 		foreach ($conversations as $id => $conversation) {
-			$conversations[$id]->participants = $this->db->select('users.id, users.first_name, users.last_name')
-														 ->from('chat_participants')
-														 ->join('users', 'users.id = chat_participants.user_id')
-														 ->where('conversation_id', $conversation->id)
-														 ->get()
-														 ->result();
+			$conversations[$id]["participants"] = $this->db->select('users.id, users.first_name, users.last_name')
+				->from('chat_participants')
+				->join('users', 'users.id = chat_participants.user_id')
+				->where('conversation_id', $conversation["id"])
+				->get()
+				->result_array();
 		}
 
-		return print json_encode($conversations);
+		return print json_encode($conversations, JSON_PRETTY_PRINT);
 	}
 
 
 	public function show($conversation_id) {
-		$conversation = $this->conversation->find($conversation_id);
-		$conversation->participants = $this->db->select('users.id, users.first_name, users.last_name')
-											   ->from('chat_participants')
-											   ->join('users', 'users.id = chat_participants.user_id')
-											   ->where('conversation_id', $conversation->id)
-											   ->get()
-											   ->result();
-		return print json_encode($conversation);
-	}
+		$conversation = $this->db->get_where("chat_conversations", ["id" => $conversation_id])->row_array();
 
+		$conversation["participants"]= $this->db->select('users.id, users.first_name, users.last_name')
+			->from('chat_participants')
+			->join('users', 'users.id = chat_participants.user_id')
+			->where('conversation_id', $conversation["id"])
+			->get()
+			->result_array();
 
-	public function messages($conversation_id) {
-		$this->db->select('*');
-		$this->db->from('chat_messages');
-		$this->db->where('conversation_id', $conversation_id);
-		$this->db->order_by('created_at');
-		return print json_encode($this->utilities->prepare_messages($this->db->get()->result()));
+		$conversation["messages"] = $this->db->select("messages.id, messages.body, messages.created_by, messages.created_at")
+			->from("chat_messages as messages")
+			->where("conversation_id", $conversation["id"])
+			->order_by("created_at")
+			->get()
+			->result_array();
+
+		if ($conversation["messages"]) {
+			foreach ($conversation["messages"] as $id => $message) {
+				$conversation["messages"][$id]["body"] = $this->encryption->decrypt($message["body"]);
+				$conversation["messages"][$id]["created_by"] = $this->db->select("users.id, users.first_name, users.last_name")
+					->from("users")
+					->where("id", $message["created_by"])
+					->get()
+					->row_array();
+			}
+		}
+		
+		return print json_encode($conversation, JSON_PRETTY_PRINT);
 	}
 
 

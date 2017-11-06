@@ -6,8 +6,8 @@ $route['messages/(:any)'] = 'Site_Controller/messages/$1';
 
 $api_url = "api/dev";
 
+$route["$api_url/users/conversations"]["GET"] = 'User_Controller/conversations/$1';
 $route["$api_url/users/(:any)"]["GET"] = "User_Controller/show/$1";
-$route["$api_url/users/(:any)/conversations"]["GET"] = 'User_Controller/conversations/$1';
 
 $route["$api_url/companies/(:any)/users"]["GET"] = 'Company_Controller/users/$1';
 

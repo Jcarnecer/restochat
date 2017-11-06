@@ -45,7 +45,7 @@ function index(context) {
 					<li title="${conversationName}" data-conversation="${conversation.id}">
 						<a href="${baseUrl}/messages/${conversation.id}" class="sidebar__item ${conversation.name === 'General' ? 'active': ''}">
 							<div class="">${conversationName}</div>
-							<small>${conversation.body}</small>
+							<small>${conversation.latest_message.body}</small>
 						</a>
 					</li>
 				`);
@@ -104,17 +104,17 @@ function index(context) {
 function showCreateConversation(context) {
 	let conversation = querystring.parse(context.querystring);
 
-	document.title = "";
+	$("title").html("");
 	$(".navbar-brand").html("");
 	$(".message-area").html("");
 
-	$.each(conversation.participants, function(index, participant) {
+	/*$.each(conversation.participants, function(index, participant) {
 		getUser(participant).done(function(data) {
 			let user = $.parseJSON(data);
 			document.title += user.first_name + " " + user.last_name;
 			$(".navbar-brand").append(user.first_name + " " + user.last_name);
 		});
-	});
+	});*/
 
 	$("#createMessageForm").unbind("submit").submit(function(event) {
 		event.preventDefault();
@@ -154,13 +154,56 @@ function message(context) {
 
 	getConversation(conversationId).done(function(response) {
 		let conversation = $.parseJSON(response);
+		
 		let conversationName = getConversationName(conversation);
+		$("title").html(conversationName);
+		$(".navbar-brand").html(conversationName);
 
-		document.title = conversationName;
-		$('.navbar-brand').html(conversationName);
+		$(".message-area").html("");
+		$.each(conversation.messages, function(index, message) {
+			let $_message;
+			let $_lastMessage = $('.message').last();
+
+			if (message.created_by.id === userId) {
+				$_message = $(`
+					<div class="message message--primary" data-user="${message.created_by.id}" data-message="${message.id}">
+						<div class="message__body">
+							<div class="message__time"></div>
+							<div class="message__bubble">${message.body}</div>
+						</div>
+						<div class="message__status"></div>
+					</div>
+				`);
+			} else {
+				if ($_lastMessage.attr('data-user') === message.created_by.id) {
+					$_message = $(`
+					<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
+						<div class="message__body">
+							<div class="message__bubble">${message.body}</div>
+							<div class="message__time"></div>
+						</div>
+					</div>`);
+				} else {
+					$_message = $(`
+					<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
+						<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
+						<div class="message__body">
+							<img class="message__avatar" src="http://payakapps.com/assets/img/avatar/${message.created_by.id}.png" />
+							<div class="message__bubble">${message.body}</div>
+							<div class="message__time"></div>
+						</div>
+					</div>`);
+				}
+			}
+
+			$_message.eventShowTime({timestamp: message.created_at});
+			$_message.eventShowStatus({status: getMessageStatus(message)});
+			$_messageArea.append($_message);
+		});
+
 	});
 
-	loadMessageArea(conversationId);
+	//loadMessageArea(conversationId);
 
 	$("#createMessageForm").unbind("submit").submit(function(event) {
 		event.preventDefault();

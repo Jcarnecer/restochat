@@ -38,4 +38,24 @@ class Utilities {
 
 		return $messages;
 	}
+
+	public function sort_conversations($conversations) {
+		$length = count($conversations);
+
+		if ($length > 1) {
+			$pivot = $conversations[0];
+
+			$left = $right = [];
+
+			for ($i = 1; $i < $length; $i++) {
+				if ($conversations[$i]["latest_message"]["created_at"] > $pivot["latest_message"]["created_at"]) {
+					$left[] = $conversations[$i];
+				} else {
+					$right[] = $conversations[$i];
+				}
+			}
+			return array_merge($this->sort_conversations($left), array($pivot), $this->sort_conversations($right));
+		}
+		return $conversations;
+	}
 }

@@ -56,7 +56,7 @@ function getCompanyUsers(companyId, userDetails) {
 
 function getUserConversations(userId) {
     return $.ajax({
-        url: baseUrl + '/api/dev/users/' + userId + '/conversations',
+        url: baseUrl + '/api/dev/users/conversations',
         method: 'GET'
     });
 }
