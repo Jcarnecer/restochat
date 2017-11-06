@@ -1,4 +1,8 @@
-.message-area {
+body {
+	background-color: #eeeeee;
+}
+
+#messageArea {
 	height: calc(100vh - 110px);
 	overflow: auto;
 }
@@ -210,7 +214,7 @@
 	max-width: 300px;
 }
 
-#sidebar .conversation-list {
+#conversationList {
 	overflow: auto;
 	height: calc(100% - 54px);
 }
@@ -236,6 +240,10 @@ ul {
 .sidebar__item {
 	text-overflow: ellipsis;
 	overflow: hidden;
+}
+
+.sidebar__item.new {
+	font-weight: bold;
 }
 
 .topbar .navbar-custom {

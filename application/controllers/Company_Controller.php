@@ -6,30 +6,23 @@ class Company_Controller extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+
+		header("Content-Type: Application/Json");
 	}
 
 
-	public function users($company_id) {
-		$key = isset($_GET['key']) ? $_GET['key'] : null;
-		$users = null;
+	public function users() {
+		$user = $this->session->userdata("user");
+		$company = $this->db->get_where("companies", ["id" => $user->company_id])->row_array();
 
-		# TODO: Move code to user or company model
-		if ($key) {
-			$this->db->select('*')->from('users')
-					 ->group_start()
-						 ->like("CONCAT(first_name, ' ', last_name)", $key)
-						 ->or_like('email_address', $key)
-					 ->group_end()
-					 ->where('company_id', $company_id);
-			$users = $this->db->get()->result();
-		} else {
-			$users = $this->db->from('users')
-							  ->where('company_id', $company_id)
-							  ->order_by('first_name')
-							  ->get()->result();
-		}
+		$users = $this->db->select("users.id, users.first_name, users.last_name, users.email_address")
+			->from("users")
+			->where("company_id", $company["id"])
+			->order_by('first_name')
+			->get()
+			->result_array();
 
-		return print json_encode($users);
+		return print json_encode($users, JSON_PRETTY_PRINT);
 	}
 
 

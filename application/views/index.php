@@ -7,6 +7,7 @@
         <meta name="user_id" content="<?= $current_user->id ?>" />
         <meta name="company_id" content="<?= $company_id ?>" />
         <meta name="general_conversation" content="<?= $general_conversation ?>" />
+        <title>Chat</title>
         <base href="<?= base_url() ?>" />
         <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/flavored-reset-and-normalize.css" />
         <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/bootstrap.css" />
@@ -23,7 +24,7 @@
             <div class="shimmer shimmer--dark m-2"></div>
             <div class="shimmer shimmer--dark-secondary w-75 m-2"></div>
             <div class="sidebar__header"></div>
-            <ul class="conversation-list"></ul>
+            <ul id="conversationList"></ul>
         </div>
         <div class="main-content">
             <div class="topbar">
@@ -42,7 +43,7 @@
                 </nav>
             </div>
 
-            <div class="container-fluid message-area">
+            <div class="container-fluid" id="messageArea">
                 <div class="shimmer shimmer--light w-50 m-2 mt-3"></div>
                 <div class="shimmer shimmer--light w-25 m-2"></div>
 
@@ -53,7 +54,7 @@
             <div class="bottombar">
                 <nav class="navbar navbar-custom">
                     <form class="form-inline w-100" id="createMessageForm">
-                        <input class="form-control" name="body" autocomplete="off" placeholder="Type a message..." maxlength="100" />
+                        <input class="form-control" id="messageBody" name="body" autocomplete="off" placeholder="Type a message..." maxlength="100" />
                         <button class="btn btn-link" type="submit">
                             <i class="fa fa-send"></i>
                         </button>
@@ -69,6 +70,10 @@
                     <div class="modal-body">
                         <div class="menu" id="conversationList"></div>
                     </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="create">New group</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,9 +87,7 @@
         <script src="<?= base_url('assets/js/moment.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.js') ?>"></script>
         <script src="<?= base_url('assets/js/querystring.min.js') ?>"></script>
-        <script src="<?= base_url('assets/js/ajax.js') ?>"></script>
         <script src="<?= base_url('assets/js/jquery-plugin.js') ?>"></script>
-        <script src="<?= base_url('assets/js/page.routes.js') ?>"></script>
         <script src="<?= base_url('assets/js/app.js') ?>"></script>
     </body>
 </html>

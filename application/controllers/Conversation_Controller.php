@@ -58,6 +58,83 @@ class Conversation_Controller extends CI_Controller {
 		return print json_encode($conversation, JSON_PRETTY_PRINT);
 	}
 
+	public function create() {
+		$user = $this->session->userdata("user");
+		$type = $this->input->post("type");
+		$participants = $this->input->post("participants");
+		$participants[] = $user->id;
+
+		if ($type === "1") {
+			$conversation = [
+				"id" => $this->utilities->create_random_string(),
+				"company_id" => $user->company_id,
+				"name" => $this->input->post("name"),
+				"type" => $this->input->post("type")
+			];
+
+			$this->db->insert("chat_conversations", $conversation);
+			
+			foreach ($participants as $participant) {
+				$this->db->insert("chat_participants", [
+					"user_id" => $participant,
+					"conversation_id" => $conversation["id"]
+				]);
+			}
+
+			$conversation["latest_message"] = [
+				"body" => "No messages"
+			];
+
+			$conversation["participants"] = $this->db->select('users.id, users.first_name, users.last_name')
+				->from('chat_participants')
+				->join('users', 'users.id = chat_participants.user_id')
+				->where('conversation_id', $conversation["id"])
+				->get()
+				->result_array();
+		} else if ($type === "2") {
+			$conversation = $this->db->query("
+				SELECT *
+				FROM chat_conversations
+				WHERE id IN (
+					SELECT conversation_id FROM chat_participants WHERE user_id = '{$participants[0]}'
+				) AND id IN (
+					SELECT conversation_id FROM chat_participants WHERE user_id = '{$participants[1]}'
+				) AND type = 2
+			")->row_array();
+
+			if (!$conversation) {
+				$conversation = [
+					"id" => $this->utilities->create_random_string(),
+					"company_id" => $user->company_id,
+					"name" => $this->input->post("name"),
+					"type" => $this->input->post("type")
+				];
+			
+				$this->db->insert("chat_conversations", $conversation);
+			
+				foreach ($participants as $participant) {
+					$this->db->insert("chat_participants", [
+						"user_id" => $participant,
+						"conversation_id" => $conversation["id"]
+					]);
+				}
+			
+				$conversation["latest_message"] = [
+					"body" => "No messages"
+				];
+			}
+		
+			$conversation["participants"] = $this->db->select('users.id, users.first_name, users.last_name')
+				->from('chat_participants')
+				->join('users', 'users.id = chat_participants.user_id')
+				->where('conversation_id', $conversation["id"])
+				->get()
+				->result_array();
+		}
+		
+		return print json_encode($conversation, JSON_PRETTY_PRINT);
+	}
+
 
 	public function create_message($conversation_id) {
 		$user = $this->authenticate->current_user();
@@ -74,10 +151,4 @@ class Conversation_Controller extends CI_Controller {
 		return show_error(404);
 	}
 
-
-	public function get_private_conversation() {
-		$participants = $_GET["participants"];
-		$conversation = $this->conversation->get_private_conversation($participants[0], $participants[1]);
-		return print json_encode($conversation);
-	}
 }

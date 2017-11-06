@@ -140,7 +140,7 @@ function showCreateConversation(context) {
 					);
 					$(".conversation-list .sidebar__item").toggleActive();
 					//socket.emit("push conversation", conversation);
-					page.redirect("/messages/" + conversation.id);
+					page.redirect("/conversations/" + conversation.id);
 				});
 			});
 			$("#createMessageForm").find("[name='body']").val("");

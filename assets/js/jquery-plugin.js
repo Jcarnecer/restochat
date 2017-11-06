@@ -43,8 +43,9 @@
 
 	$.fn.toggleActive = function() {
 		this.click(function() {
-			$('.sidebar__item').removeClass('active');
-			$(this).addClass('active');
+			$(".sidebar__item").removeClass('active');
+			$(this).removeClass("new");
+			$(this).addClass("active");
 		});
 	}
 

@@ -34,7 +34,7 @@ class Site_Controller extends CI_Controller {
 			$this->db->insert("chat_conversations", $general_conversation);
 		}
 
-		# check if users is participant of general
+		# check if user is participant of general
 		$is_participant = $this->db->get_where(
 			"chat_participants", [
 				"conversation_id" => $general_conversation["id"],
