@@ -70,10 +70,6 @@
                     <div class="modal-body">
                         <div class="menu" id="conversationList"></div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="create">New group</a>
-                    </div>
                 </div>
             </div>
         </div>

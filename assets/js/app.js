@@ -333,7 +333,7 @@
 		audio = new Audio('https://notificationsounds.com/soundfiles/68ce199ec2c5517597ce0a4d89620f55/file-sounds-954-all-eyes-on-me.mp3');
 
 		attachEvents();
-		initPagejs();
+		initPageJs();
 		getUserConversations();
 	}
 	
