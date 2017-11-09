@@ -50,8 +50,8 @@
 				$("#conversationList").append(`
 					<li title="${conversationName}" data-conversation="${conversation.id}">
 						<a href="${baseUrl}/conversations/${conversation.id}" class="sidebar__item ${conversation.name === 'General' ? 'active': ''}">
-							<div class="">${conversationName}</div>
-							<small>${conversation.latest_message.body}</small>
+							<div class="sidebar__item__header">${conversationName}</div>
+							<small class="sidebar__item__subtitle">${conversation.latest_message.body}</small>
 						</a>
 					</li>
 				`);
@@ -59,6 +59,7 @@
 			$(".sidebar__item").toggleActive();
 		})
 	}
+
 
 	function createConversation(conversationDetails) {
 		return $.ajax({
@@ -131,7 +132,6 @@
 			var conversation = $.parseJSON(data);
 			
 			conversation.name = getConversationName(conversation);
-			$("title").text(conversation.name);
 			$(".navbar-brand").html(conversation.name);
 
 			$("#messageArea").html("");
@@ -285,7 +285,6 @@
 	}
 
 	function exitConversation(context, next) {
-		$("title").text("");
 		$(".navbar-brand").html("<div class='shimmer shimmer--light w-100 m-2'></div>");
 		$("#messageArea").html(`
 			<div class="shimmer shimmer--light w-50 m-2 mt-3"></div>

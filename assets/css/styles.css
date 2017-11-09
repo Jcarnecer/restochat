@@ -233,6 +233,12 @@ body {
 	border-left: none;
 }
 
+.sidebar__item__header,
+.sidebar__item__subtitle {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 ul {
 	margin-bottom: 0;
 }
