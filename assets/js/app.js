@@ -16,10 +16,17 @@
 		if (conversation.name) {
 			conversationName = conversation.name;
 		} else {
-			$.each(conversation.participants, function(index, participant) {
+			let participants = conversation.participants;
+			participants.forEach(function(participant, index) {
+				if (participant.id === userId) {
+					participants.splice(index, 1);
+				}
+			});
+
+			$.each(participants, function(index, participant) {
 				if (participant.id !== userId) {
-					conversationName += participant.first_name + ' ' + participant.last_name;
-					conversationName += (conversation.participants.length > 2 && index < conversation.participants.length - 1) ? ", " : "";
+					conversationName += participant["first_name"] + " " + participant["last_name"];
+    				conversationName += (index === participants.length - 1) ? "" : ", ";
 				}
 			});
 		}
