@@ -10,7 +10,7 @@
         <title>Chat</title>
         <base href="<?= base_url() ?>" />
         <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/flavored-reset-and-normalize.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/restp/assets/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/styles.css" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/shimmer.css') ?>" />
