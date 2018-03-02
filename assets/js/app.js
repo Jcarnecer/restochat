@@ -7,7 +7,7 @@
 	var socket;
 	var audio;
 
-	var baseUrl = "http://localhost/chat";
+	var baseUrl = "http://localhost/resto";
 	var apiUrl = "/api/dev";
 
 

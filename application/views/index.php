@@ -9,10 +9,10 @@
         <meta name="general_conversation" content="<?= $general_conversation ?>" />
         <title>Chat</title>
         <base href="<?= base_url() ?>" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/flavored-reset-and-normalize.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="http://localhost/main/assets/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/flavored-reset-and-normalize.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/restp/assets/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://localhost/resto/assets/css/styles.css" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/shimmer.css') ?>" />
         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/styles.css') ?>" />
     </head>
@@ -74,11 +74,11 @@
             </div>
         </div>
 
-        <script src="http://localhost/main/assets/js/jquery.js"></script>
-        <script src="http://localhost/main/assets/js/popper.min.js"></script>
-        <script src="http://localhost/main/assets/js/bootstrap.min.js"></script>
-        <script src="http://localhost/main/assets/js/jquery.nicescroll.min.js"></script>
-        <script src="http://localhost/main/assets/js/script.js"></script>
+        <script src="http://localhost/resto/assets/js/jquery.js"></script>
+        <script src="http://localhost/resto/assets/js/popper.min.js"></script>
+        <script src="http://localhost/resto/assets/js/bootstrap.min.js"></script>
+        <script src="http://localhost/resto/assets/js/jquery.nicescroll.min.js"></script>
+        <script src="http://localhost/resto/assets/js/script.js"></script>
         <script src="<?= base_url('assets/js/socket.io.js') ?>"></script>
         <script src="<?= base_url('assets/js/moment.min.js') ?>"></script>
         <script src="<?= base_url('assets/js/page.js') ?>"></script>

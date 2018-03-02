@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost/chat";
+const baseUrl = "http://localhost/resto";
 
 function getConversations() {
     return $.ajax({
