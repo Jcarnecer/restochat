@@ -57,7 +57,7 @@ body {
 }
 
 .message--primary .message__bubble {
-	background-color: #25CBF2;
+	background-color: #D24D57;
 	border-top-right-radius: 0;
 	color: #ffffff;
 }
@@ -70,7 +70,7 @@ body {
 	width: 0; 
 	height: 0; 
 	border: 5px solid transparent;
-	border-color: #25CBF2 transparent transparent transparent;
+	border-color: #D24D57 transparent transparent transparent;
 	margin-right: -5px;
 }
 
@@ -123,7 +123,7 @@ body {
 	line-height: 16px;
 	max-height: 32px;
 	padding: 8px;
-	vertical-align: : middle;
+	vertical-align: middle;
 }
 
 .message--default .message__time {
