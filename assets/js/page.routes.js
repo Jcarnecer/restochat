@@ -13,7 +13,7 @@ const $_createConversationForm = $('#createConversationForm');
 const socket = io('https://socket-simpleapp.herokuapp.com/');
 const audio = new Audio('https://notificationsounds.com/soundfiles/68ce199ec2c5517597ce0a4d89620f55/file-sounds-954-all-eyes-on-me.mp3');
 
-page.base("/chat")
+page.base("/restochat")
 page('/', index);
 page("/messages/create", showCreateConversation);
 page("/messages/:conversationId", message);
@@ -30,7 +30,7 @@ function index(context) {
 
 			$('#sidebar').find('.shimmer').hide();
 			$('.sidebar__header').append(`
-				<a class="sidebar__header__item" href="http://localhost/main">
+				<a class="sidebar__header__item" href="http://localhost/restochat">
 					<i class="fa fa-arrow-left"></i>
 				</a>
 				<a class="sidebar__header__item">kaChat</a>
@@ -64,7 +64,7 @@ function index(context) {
 					$('#createConversationModal .menu').append(
 						$(`
 							<div class="menu__item">
-								<img class="menu__image" src="http://localhost/main/assets/img/avatar/${user.id}.png" />
+								<img class="menu__image" src="http://localhost/resto/assets/img/avatar/${user.id}.png" />
 								${user.first_name} ${user.last_name}
 							</div>
 						`)

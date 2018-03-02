@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if (ENVIRONMENT === "production") {
 	$config['base_url'] = 'http://chat.payakapps.com/';
 } else {
-	$config['base_url'] = 'http://localhost/chat/';
+	$config['base_url'] = 'http://localhost/restochat/';
 }
 
 /*
