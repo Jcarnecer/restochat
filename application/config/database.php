@@ -79,7 +79,7 @@ if (ENVIRONMENT == "production") {
 		'hostname' => 'restoapp.ct6zpeav3tx4.ap-southeast-1.rds.amazonaws.com',
 		'username' => 'astrid',
 		'password' => 'astridtechnologies',
-		'database' => 'small_apps',
+		'database' => 'resto_app',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
