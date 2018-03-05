@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 if (ENVIRONMENT === "production") {
-	$config['base_url'] = 'http://chat.payakapps.com/';
+	$config['base_url'] = 'http://chat.restoshift.com/';
 } else {
 	$config['base_url'] = 'http://localhost/restochat/';
 }
@@ -406,7 +406,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 */
 if (ENVIRONMENT === "production") {
 	$config['cookie_prefix']	= '';
-	$config['cookie_domain']	= '.payakapps.com';
+	$config['cookie_domain']	= '.restoshift.com';
 	$config['cookie_path']		= '/';
 	$config['cookie_secure']	= FALSE;
 	$config['cookie_httponly'] 	= FALSE;

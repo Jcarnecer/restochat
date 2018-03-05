@@ -7,7 +7,7 @@
 	var socket;
 	var audio;
 
-	var baseUrl = "http://localhost/restochat";
+	var baseUrl = "http://chat.restoshift.com";
 	var apiUrl = "/api/dev";
 
 
@@ -43,7 +43,7 @@
 
 			$("#sidebar").find(".shimmer").hide();
 			$(".sidebar__header").append(`
-				<a class="sidebar__header__item" href="http://localhost/main">
+				<a class="sidebar__header__item" href="http://restoshift.com">
 					<i class="fa fa-arrow-left"></i>
 				</a>
 				<a class="sidebar__header__item">kaChat</a>
@@ -112,7 +112,7 @@
 				if (user.id !== userId) {
 					var $item = $(`
 						<div class="menu__item">
-							<img class="menu__image" src="http://localhost/main/assets/img/avatar/${user.id}.png" />
+							<img class="menu__image" src="http://restoshift.com/assets/img/avatar/${user.id}.png" />
 							${user.first_name} ${user.last_name}
 						</div>
 					`);
@@ -169,7 +169,7 @@
 						<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 							<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 							<div class="message__body">
-								<img class="message__avatar" src="http://payakapps.com/assets/img/avatar/${message.created_by.id}.png" />
+								<img class="message__avatar" src="http://restoshift.com/assets/img/avatar/${message.created_by.id}.png" />
 								<div class="message__bubble">${message.body}</div>
 								<div class="message__time"></div>
 							</div>
@@ -266,7 +266,7 @@
 						<div class="message message--default" data-user="${message.created_by.id}" data-message="${message.id}">
 							<div class="message__user">${message.created_by.first_name} ${message.created_by.last_name}</div>
 							<div class="message__body">
-								<img class="message__avatar" src="http://localhost/main/assets/img/avatar/${message.created_by.id}.png" />
+								<img class="message__avatar" src="http://restoshift.com/assets/img/avatar/${message.created_by.id}.png" />
 								<div class="message__bubble">${message.body}</div>
 								<div class="message__time"></div>
 							</div>

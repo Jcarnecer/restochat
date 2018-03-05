@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost/restochat";
+const baseUrl = "http://chat.restoshift.com";
 
 function getConversations() {
     return $.ajax({
