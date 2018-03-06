@@ -13,7 +13,7 @@ class Authenticate {
 
 	public function is_authenticated() {
 		if (!$this->CI->session->userdata('user')) {
-			return redirect("http://localhost/chat/users/login");
+			return redirect("http://localhost/resto/users/login");
 		}
 	}
 

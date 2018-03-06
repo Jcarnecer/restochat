@@ -7,7 +7,7 @@
 	var socket;
 	var audio;
 
-	var baseUrl = "http://localhost/chat";
+	var baseUrl = "http://localhost/restochat";
 	var apiUrl = "/api/dev";
 
 
@@ -323,7 +323,7 @@
 	}
 
 	function initPageJs() {
-		page.base("/chat");
+		page.base("/restochat");
 		page("/", index);
 		page("/conversations/:conversationId", showConversation);
 		page.exit("/conversations/:conversationId", exitConversation);

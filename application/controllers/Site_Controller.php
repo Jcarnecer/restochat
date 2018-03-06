@@ -10,7 +10,7 @@ class Site_Controller extends CI_Controller {
 
 	public function index() {
 		if (!$this->session->has_userdata("user")) {
-			return redirect("http://localhost/main/users/login");
+			return redirect("http://localhost/resto/users/login");
 		}
 
 		$user = $this->authenticate->current_user();
